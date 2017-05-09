@@ -8,7 +8,7 @@ from rdkit import Chem
 from rdkit.Chem import rdMolDescriptors as desc
 import shutil
 
-import pubchem
+from lib.data import pubchem
 
 
 task_names = None
@@ -49,8 +49,8 @@ def create_dataset(assays, smiles, featurizer):
 
 def _load(path):
     with pd.HDFStore(path) as store:
-        task_names = filter(lambda name: name.startswith('/assay'),
-                            store.keys())
+        task_names = list(filter(lambda name: name.startswith('/assay'),
+                            store.keys()))
         assays = []
         for t in task_names:
             a = store[t]
